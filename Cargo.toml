@@ -1,0 +1,14 @@
+[package]
+name = "githubspot"
+version = "0.1.0"
+authors = ["Joe Ennever <joe@verst.co>"]
+
+[dependencies]
+rand = "0.3"
+
+[dependencies.iron]
+version = "*"
+
+[dependencies.time]
+version = "*"
+

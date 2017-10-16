@@ -1,0 +1,51 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: githubspot
+  name: githubspot
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: githubspot
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: githubspot
+    spec:
+      containers:
+      - env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: DWNLD_ENVIRONMENT
+          value: prod
+        - name: PORT
+          value: "8080"
+        image: quay.io/dwnld/githubspot:v1
+        imagePullPolicy: IfNotPresent
+        name: githubspot
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "100m"
+            memory: 1G
+          requests:
+            cpu: "100m"
+            memory: 1G
